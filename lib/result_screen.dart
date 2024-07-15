@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:adv_basics/data/questions.dart';
+import 'package:adv_basics/questions_summary.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen(this.resultScreen,
@@ -24,6 +25,9 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numTotalQuestions = 0;
+    final numCorrectQuestions = 0;
+
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -35,7 +39,7 @@ class ResultScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const Text('List of answers and questions'),
+            QuestionsSummary(getSummaryData()),
             const SizedBox(
               height: 30,
             ),
