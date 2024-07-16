@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:adv_basics/data/questions.dart';
 import 'package:adv_basics/questions_summary.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen(this.resultScreen,
+  const ResultScreen(this.restartQuiz, this.resultScreen,
       {super.key, required this.chosenAnswers});
 
   final void Function() resultScreen;
   final List<String> chosenAnswers;
+  final void Function() restartQuiz;
 
   List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
@@ -25,8 +27,11 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final numTotalQuestions = 0;
-    final numCorrectQuestions = 0;
+    final summaryData = getSummaryData();
+    final numTotalQuestions = questions.length;
+    final numCorrectQuestions = summaryData.where((data) {
+      return data['user_answer'] == data['correct_answer'];
+    }).length;
 
     return SizedBox(
       width: double.infinity,
@@ -35,17 +40,29 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('You answered X of Y questions correctely!'),
+            Text(
+              'You answered $numCorrectQuestions of $numTotalQuestions questions correctely!',
+              style: GoogleFonts.lato(color: Colors.white, fontSize: 18),
+            ),
             const SizedBox(
               height: 30,
             ),
-            QuestionsSummary(getSummaryData()),
+            QuestionsSummary(summaryData),
             const SizedBox(
               height: 30,
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('restart quiz!'),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              onPressed: () {
+                restartQuiz();
+              },
+              label: const Text('Restart quiz!'),
+              icon: const Icon(Icons.restart_alt_sharp),
             ),
           ],
         ),
